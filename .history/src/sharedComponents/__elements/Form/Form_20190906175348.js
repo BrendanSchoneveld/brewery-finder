@@ -3,25 +3,12 @@ import FormGroup from "./FormGroup/FormGroup";
 import Button from "../../__atoms/Button/Button";
 
 class Form extends Component {
-  state = {
-    userInput: ""
-  };
-
-  handleChange = e => {
-    const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  };
-
   render() {
     /*
      *  Destructuring properties
      */
     const {
+        handleChange,
         formProps: { formGroups, formClasses, formSubmit }
       } = this.props,
       /*
@@ -38,7 +25,7 @@ class Form extends Component {
               <FormGroup
                 key={index}
                 value={userInput}
-                handleChange={this.handleChange}
+                handleChange={handleChange}
                 formGroupProps={formGroupProps}
                 labelProps={labelProps}
                 inputProps={inputProps}

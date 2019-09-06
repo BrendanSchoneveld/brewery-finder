@@ -29,7 +29,7 @@ class HomeView extends Component {
   };
 
   tableProps = {
-    tableClasses: "table mt-5",
+    tableClasses: "table",
     tableRows: [
       {
         tableHead: true,

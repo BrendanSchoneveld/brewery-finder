@@ -31,9 +31,6 @@ class Form extends Component {
         ? formGroups.map((formGroup, index) => {
             const { labelProps, inputProps, formGroupProps } = formGroup,
               { userInput } = this.state;
-            /*
-             *  Return each FormGroup element that exists
-             */
             return (
               <FormGroup
                 key={index}
@@ -50,6 +47,8 @@ class Form extends Component {
 
     return (
       <form className={formClasses}>
+        {this.state.userInput}
+
         {displayFormGroups}
 
         {displaySubmitButton}

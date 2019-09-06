@@ -29,7 +29,14 @@ class HomeView extends Component {
   };
 
   tableProps = {
-    tableClasses: "table mt-5",
+    tableClasses: "table",
+    tableHead: {
+      tableHead: true,
+      id: "#",
+      duration: "Duur",
+      distance: "Afstand",
+      link: "Link"
+    },
     tableRows: [
       {
         tableHead: true,

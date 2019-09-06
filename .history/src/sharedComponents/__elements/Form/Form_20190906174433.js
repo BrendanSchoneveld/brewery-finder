@@ -18,26 +18,18 @@ class Form extends Component {
   };
 
   render() {
-    /*
-     *  Destructuring properties
-     */
+    // Destructuring properties
     const {
         formProps: { formGroups, formClasses, formSubmit }
       } = this.props,
-      /*
-       *  Displaying formgroups when formGroups has content
-       */
+      // Displaying formgroups when formGroups has content
       displayFormGroups = formGroups.length
         ? formGroups.map((formGroup, index) => {
-            const { labelProps, inputProps, formGroupProps } = formGroup,
-              { userInput } = this.state;
-            /*
-             *  Return each FormGroup element that exists
-             */
+            const { labelProps, inputProps, formGroupProps } = formGroup;
             return (
               <FormGroup
                 key={index}
-                value={userInput}
+                value={this.state.userInput}
                 handleChange={this.handleChange}
                 formGroupProps={formGroupProps}
                 labelProps={labelProps}
@@ -50,6 +42,8 @@ class Form extends Component {
 
     return (
       <form className={formClasses}>
+        {this.state.userInput}
+
         {displayFormGroups}
 
         {displaySubmitButton}

@@ -1,0 +1,16 @@
+import React from "react";
+import TableTH from "./TableTH/TableTH";
+
+const TableRow = (props, { tableColumns }) => {
+  console.log(props);
+  const displayColumns = tableColumns
+    ? tableColumns.map((column, index) => {
+const { id, duration, distance, link}
+
+        return <TableTH {...column} id={id} text={} key={index} />;
+      })
+    : [];
+  return <tr>{displayColumns}</tr>;
+};
+
+export default TableRow;

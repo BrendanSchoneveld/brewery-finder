@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Form from "../../sharedComponents/__elements/Form/Form";
-import Table from "../../sharedComponents/__elements/Table/Table";
 
 import { fetchData } from "../../services/fetchData";
 
@@ -29,62 +28,49 @@ class HomeView extends Component {
   };
 
   tableProps = {
-    tableClasses: "table mt-5",
-    tableRows: [
+    tableClasses: "table",
+    tableHead: {
+      tableHead: true,
+      index: "#",
+      duration: "Duur",
+      distance: "Afstand",
+      link: "Link"
+    },
+    tableBody: [
       {
-        tableHead: true,
-        customClasses: "thead-dark",
-        tableColumns: [
-          { position: "#", scope: "col" },
-          { duration: "Duur", scope: "col" },
-          { distance: "Afstand", scope: "col" },
-          { link: "Link", scope: "col" }
-        ]
+        tableHead: false,
+        index: 1,
+        duration: "01:33",
+        distance: 124.5,
+        link: "https://demolink.maps.com"
       },
       {
         tableHead: false,
-        tableColumns: [
-          { position: 1 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
+        index: 2,
+        duration: "01:33",
+        distance: 124.5,
+        link: "https://demolink.maps.com"
       },
       {
         tableHead: false,
-        tableColumns: [
-          { position: 2 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
+        index: 3,
+        duration: "01:33",
+        distance: 124.5,
+        link: "https://demolink.maps.com"
       },
       {
         tableHead: false,
-        tableColumns: [
-          { position: 3 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
+        index: 4,
+        duration: "01:33",
+        distance: 124.5,
+        link: "https://demolink.maps.com"
       },
       {
         tableHead: false,
-        tableColumns: [
-          { position: 4 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
-      },
-      {
-        tableHead: false,
-        tableColumns: [
-          { position: 5 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
+        index: 5,
+        duration: "01:33",
+        distance: 124.5,
+        link: "https://demolink.maps.com"
       }
     ]
   };
@@ -103,8 +89,6 @@ class HomeView extends Component {
     return (
       <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
         <Form formProps={this.formProps} />
-
-        <Table {...this.tableProps} />
       </div>
     );
   }

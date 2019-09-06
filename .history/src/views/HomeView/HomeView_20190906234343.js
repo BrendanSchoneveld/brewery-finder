@@ -29,13 +29,20 @@ class HomeView extends Component {
   };
 
   tableProps = {
-    tableClasses: "table mt-5",
+    tableClasses: "table",
+    tableHead: {
+      tableHead: true,
+      id: "#",
+      duration: "Duur",
+      distance: "Afstand",
+      link: "Link"
+    },
     tableRows: [
       {
         tableHead: true,
         customClasses: "thead-dark",
         tableColumns: [
-          { position: "#", scope: "col" },
+          { hash: "#", scope: "col" },
           { duration: "Duur", scope: "col" },
           { distance: "Afstand", scope: "col" },
           { link: "Link", scope: "col" }
@@ -44,7 +51,7 @@ class HomeView extends Component {
       {
         tableHead: false,
         tableColumns: [
-          { position: 1 },
+          { id: 1 },
           { duration: "Duur" },
           { distance: "Afstand" },
           { link: "Link" }
@@ -53,7 +60,7 @@ class HomeView extends Component {
       {
         tableHead: false,
         tableColumns: [
-          { position: 2 },
+          { id: 2 },
           { duration: "Duur" },
           { distance: "Afstand" },
           { link: "Link" }
@@ -62,7 +69,7 @@ class HomeView extends Component {
       {
         tableHead: false,
         tableColumns: [
-          { position: 3 },
+          { id: 3 },
           { duration: "Duur" },
           { distance: "Afstand" },
           { link: "Link" }
@@ -71,7 +78,7 @@ class HomeView extends Component {
       {
         tableHead: false,
         tableColumns: [
-          { position: 4 },
+          { id: 4 },
           { duration: "Duur" },
           { distance: "Afstand" },
           { link: "Link" }
@@ -80,7 +87,7 @@ class HomeView extends Component {
       {
         tableHead: false,
         tableColumns: [
-          { position: 5 },
+          { id: 5 },
           { duration: "Duur" },
           { distance: "Afstand" },
           { link: "Link" }
