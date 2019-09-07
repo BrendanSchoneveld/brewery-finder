@@ -39,10 +39,11 @@ export default async function fetchData({
         "Access-Control-Allow-Origin": "*"
       }
     });
-    let { data } = response;
+    let { data } = response,
+      distances = data ? data.rows.elements : null;
 
     component.setState({
-      [stateDescription]: [...data]
+      [stateDescription]: [...distances]
     });
   } catch (error) {
     console.error(error);

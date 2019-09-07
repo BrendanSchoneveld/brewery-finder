@@ -11,8 +11,7 @@ class HomeView extends Component {
     userInput: "",
     didUserSearch: false,
     breweries: [],
-    destinations: [],
-    searchResults: []
+    destinations: []
   };
 
   formProps = {
@@ -101,7 +100,7 @@ class HomeView extends Component {
     if (breweries.length) {
       breweries.map(brewery => {
         const { address, city, name } = brewery;
-        destinationInfo.push([address, city, name, "|"].join());
+        destinationInfo.push([address, city, name].join());
       });
     }
 
@@ -116,19 +115,22 @@ class HomeView extends Component {
   };
 
   search = _.debounce(searchQuery => {
-    const { destinations } = this.state,
-      fetchParams = {
-        endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
-        format: `json`,
-        units: `metric`,
-        origins: `${searchQuery}+ON`,
-        destinations: `${destinations}`,
-        mode: `car`,
-        language: `nl-NL`,
-        API_KEY: `AIzaSyDt8TIB9kS6PblFh0CCR3epTkOF6OryOlY`,
-        stateDescription: "searchResults",
-        component: this
-      };
+    console.log("changed");
+    const { userInput, destinations } = this.state;
+    const fetchParams = {
+      endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
+      format: `json`,
+      units: `metric`,
+      origins: `${searchQuery}`,
+      destinations,
+      mode: ``,
+      language: `nl-NL`,
+      API_Key: `AIzaSyDt8TIB9kS6PblFh0CCR3epTkOF6OryOlY`,
+      stateDescription: "searchResults",
+      component: this
+    };
+
+    console.log(fetchParams);
 
     fetchData(fetchParams);
   }, 1000);

@@ -11,7 +11,7 @@ class HomeView extends Component {
     userInput: "",
     didUserSearch: false,
     breweries: [],
-    destinations: [],
+    destinations: ["Overtocht43,Bodegraven,BrouwerijdeMolen,|"],
     searchResults: []
   };
 
@@ -157,6 +157,7 @@ class HomeView extends Component {
         breweries: [...breweryData.breweries]
       },
       () => {
+        console.log(this.state);
         this.getDestinations();
       }
     );

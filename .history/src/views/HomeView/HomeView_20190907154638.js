@@ -11,7 +11,10 @@ class HomeView extends Component {
     userInput: "",
     didUserSearch: false,
     breweries: [],
-    destinations: [],
+    destinations: [
+      "Overtocht 43,Bodegraven,Brouwerij de Molen,|",
+      "Weverij 5,Amstelveen,de naeckte brouwers,|"
+    ],
     searchResults: []
   };
 
@@ -157,7 +160,8 @@ class HomeView extends Component {
         breweries: [...breweryData.breweries]
       },
       () => {
-        this.getDestinations();
+        console.log(this.state);
+        //this.getDestinations();
       }
     );
 

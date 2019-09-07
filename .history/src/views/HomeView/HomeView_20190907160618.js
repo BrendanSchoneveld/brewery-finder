@@ -157,7 +157,8 @@ class HomeView extends Component {
         breweries: [...breweryData.breweries]
       },
       () => {
-        this.getDestinations();
+        console.log(this.state);
+        //this.getDestinations();
       }
     );
 

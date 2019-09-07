@@ -101,7 +101,7 @@ class HomeView extends Component {
     if (breweries.length) {
       breweries.map(brewery => {
         const { address, city, name } = brewery;
-        destinationInfo.push([address, city, name, "|"].join());
+        destinationInfo.push([address, city, name].join());
       });
     }
 
@@ -116,12 +116,12 @@ class HomeView extends Component {
   };
 
   search = _.debounce(searchQuery => {
-    const { destinations } = this.state,
+    const { userInput, destinations } = this.state,
       fetchParams = {
         endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
         format: `json`,
-        units: `metric`,
-        origins: `${searchQuery}+ON`,
+        units: ``,
+        origins: `${searchQuery}`,
         destinations: `${destinations}`,
         mode: `car`,
         language: `nl-NL`,

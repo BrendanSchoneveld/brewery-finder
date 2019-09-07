@@ -40,6 +40,7 @@ export default async function fetchData({
       }
     });
     let { data } = response;
+    console.log(data);
 
     component.setState({
       [stateDescription]: [...data]

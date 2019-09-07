@@ -36,13 +36,14 @@ export default async function fetchData({
     let response = await axios.get(URL, {
       mode: "cors",
       headers: {
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type: application/json'
       }
     });
     let { data } = response;
 
     component.setState({
-      [stateDescription]: [...data]
+      [stateDescription]: { ...data }
     });
   } catch (error) {
     console.error(error);

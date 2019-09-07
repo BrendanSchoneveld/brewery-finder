@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import FormGroup from "./FormGroup/FormGroup";
 import Button from "../../__atoms/Button/Button";
 

@@ -1,17 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import FormGroup from "./FormGroup/FormGroup";
 import Button from "../../__atoms/Button/Button";
 
-const Form = ({
-  formGroups,
-  formClasses,
-  formSubmit,
-  userInput,
-  handleChange
-}) => {
+const Form = ({ formGroups, formClasses, formSubmit }) => {
   const displayFormGroups = formGroups.length
       ? formGroups.map((formGroup, index) => {
-          const { labelProps, inputProps, formGroupProps } = formGroup;
+          const { labelProps, inputProps, formGroupProps } = formGroup,
+            { userInput } = this.state;
           /*
            *  Return each FormGroup element that exists
            */
@@ -19,7 +14,7 @@ const Form = ({
             <FormGroup
               key={index}
               value={userInput}
-              handleChange={handleChange}
+              handleChange={this.handleChange}
               formGroupProps={formGroupProps}
               labelProps={labelProps}
               inputProps={inputProps}

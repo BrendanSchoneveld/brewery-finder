@@ -101,7 +101,7 @@ class HomeView extends Component {
     if (breweries.length) {
       breweries.map(brewery => {
         const { address, city, name } = brewery;
-        destinationInfo.push([address, city, name, "|"].join());
+        destinationInfo.push([address, city, name].join());
       });
     }
 
@@ -116,15 +116,17 @@ class HomeView extends Component {
   };
 
   search = _.debounce(searchQuery => {
-    const { destinations } = this.state,
+    const { userInput, destinations } = this.state,
+      queryInsertion = `?`,
+      paramInsertion = `&`,
       fetchParams = {
         endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
-        format: `json`,
-        units: `metric`,
-        origins: `${searchQuery}+ON`,
-        destinations: `${destinations}`,
-        mode: `car`,
-        language: `nl-NL`,
+        format: `json${queryInsertion}`,
+        units: `${queryInsertion}`,
+        origins: `${searchQuery}${queryInsertion}`,
+        destinations: `${destinations}${queryInsertion}`,
+        mode: `car${queryInsertion}`,
+        language: `nl-NL${queryInsertion}`,
         API_KEY: `AIzaSyDt8TIB9kS6PblFh0CCR3epTkOF6OryOlY`,
         stateDescription: "searchResults",
         component: this

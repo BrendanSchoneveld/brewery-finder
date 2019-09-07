@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import Form from "../../sharedComponents/__elements/Form/Form";
 import Table from "../../sharedComponents/__elements/Table/Table";
 
-import fetchData from "../../services/fetchData";
-
 import _ from "lodash";
 
 class HomeView extends Component {
@@ -11,8 +9,7 @@ class HomeView extends Component {
     userInput: "",
     didUserSearch: false,
     breweries: [],
-    destinations: [],
-    searchResults: []
+    destinations: []
   };
 
   formProps = {
@@ -101,7 +98,7 @@ class HomeView extends Component {
     if (breweries.length) {
       breweries.map(brewery => {
         const { address, city, name } = brewery;
-        destinationInfo.push([address, city, name, "|"].join());
+        destinationInfo.push({ address, city, name });
       });
     }
 
@@ -110,27 +107,27 @@ class HomeView extends Component {
         destinations: [...destinationInfo]
       },
       () => {
-        console.log(this.state);
+        console.log(this.state.destinations);
       }
     );
   };
 
   search = _.debounce(searchQuery => {
-    const { destinations } = this.state,
-      fetchParams = {
-        endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
-        format: `json`,
-        units: `metric`,
-        origins: `${searchQuery}+ON`,
-        destinations: `${destinations}`,
-        mode: `car`,
-        language: `nl-NL`,
-        API_KEY: `AIzaSyDt8TIB9kS6PblFh0CCR3epTkOF6OryOlY`,
-        stateDescription: "searchResults",
-        component: this
-      };
+    console.log("changed");
+    const { userInput } = this.state;
+    const fetchParams = {
+      endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
+      format: `json`,
+      units: `metric`,
+      origins: `${userInput}`,
+      destinations: this.getDestinations(),
+      stateDescription: "searchResults",
+      component: this
+    };
 
-    fetchData(fetchParams);
+    console.log(fetchParams);
+
+    //fetchData(fetchParams);
   }, 1000);
 
   handleChange = e => {
@@ -157,6 +154,7 @@ class HomeView extends Component {
         breweries: [...breweryData.breweries]
       },
       () => {
+        console.log(this.state);
         this.getDestinations();
       }
     );

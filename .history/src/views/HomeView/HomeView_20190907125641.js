@@ -2,17 +2,13 @@ import React, { Component } from "react";
 import Form from "../../sharedComponents/__elements/Form/Form";
 import Table from "../../sharedComponents/__elements/Table/Table";
 
-import fetchData from "../../services/fetchData";
-
 import _ from "lodash";
 
 class HomeView extends Component {
   state = {
     userInput: "",
     didUserSearch: false,
-    breweries: [],
-    destinations: [],
-    searchResults: []
+    breweries: []
   };
 
   formProps = {
@@ -94,38 +90,14 @@ class HomeView extends Component {
     ]
   };
 
-  getDestinations = () => {
-    const { breweries } = this.state,
-      destinationInfo = [];
-
-    if (breweries.length) {
-      breweries.map(brewery => {
-        const { address, city, name } = brewery;
-        destinationInfo.push([address, city, name, "|"].join());
-      });
-    }
-
-    this.setState(
-      {
-        destinations: [...destinationInfo]
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
-  };
-
   search = _.debounce(searchQuery => {
-    const { destinations } = this.state,
+    const { accessToken } = this.props,
       fetchParams = {
-        endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
-        format: `json`,
-        units: `metric`,
-        origins: `${searchQuery}+ON`,
-        destinations: `${destinations}`,
-        mode: `car`,
-        language: `nl-NL`,
-        API_KEY: `AIzaSyDt8TIB9kS6PblFh0CCR3epTkOF6OryOlY`,
+        token: accessToken,
+        endpoint: `https://api.spotify.com/v1/search`,
+        query: `?q=${searchQuery}`,
+        type: `&type=track`,
+        URL: `https://api.spotify.com/v1/search?q=${searchQuery}&type=track`,
         stateDescription: "searchResults",
         component: this
       };
@@ -134,32 +106,21 @@ class HomeView extends Component {
   }, 1000);
 
   handleChange = e => {
-    const { userInput } = this.state,
-      target = e.target,
-      value = target.type === "checkbox" ? target.checked : target.value,
-      name = target.name;
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
 
-    this.setState(
-      {
-        [name]: value
-      },
-      () => {
-        this.search(userInput);
-      }
-    );
+    this.setState({
+      [name]: value
+    });
   };
 
   componentDidMount() {
-    let breweryData = require("../../data/brouwerijen.json");
+    const breweryData = require("../../data/brouwerijen.json");
 
-    this.setState(
-      {
-        breweries: [...breweryData.breweries]
-      },
-      () => {
-        this.getDestinations();
-      }
-    );
+    this.setState({
+      breweries: { ...breweryData.breweries }
+    });
 
     /* const fetchParams = {
       URL: `https://download.oberon.nl/opdracht/brouwerijen.js`,

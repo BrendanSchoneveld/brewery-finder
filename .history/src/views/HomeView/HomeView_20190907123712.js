@@ -2,18 +2,15 @@ import React, { Component } from "react";
 import Form from "../../sharedComponents/__elements/Form/Form";
 import Table from "../../sharedComponents/__elements/Table/Table";
 
-import fetchData from "../../services/fetchData";
-
-import _ from "lodash";
+import { fetchData } from "../../services/fetchData";
 
 class HomeView extends Component {
   state = {
     userInput: "",
-    didUserSearch: false,
-    breweries: [],
-    destinations: [],
-    searchResults: []
+    breweryData: []
   };
+
+  breweries = require("../../data/brouwerijen.json");
 
   formProps = {
     formClasses: "form bg-blue-700 mt-5 px-5 py-5 rounded-full",
@@ -94,91 +91,21 @@ class HomeView extends Component {
     ]
   };
 
-  getDestinations = () => {
-    const { breweries } = this.state,
-      destinationInfo = [];
-
-    if (breweries.length) {
-      breweries.map(brewery => {
-        const { address, city, name } = brewery;
-        destinationInfo.push([address, city, name, "|"].join());
-      });
-    }
-
-    this.setState(
-      {
-        destinations: [...destinationInfo]
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
-  };
-
-  search = _.debounce(searchQuery => {
-    const { destinations } = this.state,
-      fetchParams = {
-        endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
-        format: `json`,
-        units: `metric`,
-        origins: `${searchQuery}+ON`,
-        destinations: `${destinations}`,
-        mode: `car`,
-        language: `nl-NL`,
-        API_KEY: `AIzaSyDt8TIB9kS6PblFh0CCR3epTkOF6OryOlY`,
-        stateDescription: "searchResults",
-        component: this
-      };
-
-    fetchData(fetchParams);
-  }, 1000);
-
-  handleChange = e => {
-    const { userInput } = this.state,
-      target = e.target,
-      value = target.type === "checkbox" ? target.checked : target.value,
-      name = target.name;
-
-    this.setState(
-      {
-        [name]: value
-      },
-      () => {
-        this.search(userInput);
-      }
-    );
-  };
-
   componentDidMount() {
-    let breweryData = require("../../data/brouwerijen.json");
-
-    this.setState(
-      {
-        breweries: [...breweryData.breweries]
-      },
-      () => {
-        this.getDestinations();
-      }
-    );
-
-    /* const fetchParams = {
+    console.log(this.json);
+    const fetchParams = {
       URL: `https://download.oberon.nl/opdracht/brouwerijen.js`,
       stateDescription: "breweryAdresses",
       component: this
     };
 
-    fetchData(fetchParams); */
+    fetchData(fetchParams);
   }
 
   render() {
-    const { userInput } = this.state;
     return (
       <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-        <Form
-          {...this.formProps}
-          handleChange={this.handleChange}
-          userInput={userInput}
-        />
+        <Form formProps={this.formProps} />
 
         <Table {...this.tableProps} />
       </div>

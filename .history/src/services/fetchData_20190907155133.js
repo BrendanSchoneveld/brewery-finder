@@ -42,7 +42,7 @@ export default async function fetchData({
     let { data } = response;
 
     component.setState({
-      [stateDescription]: [...data]
+      [stateDescription]: { ...data }
     });
   } catch (error) {
     console.error(error);

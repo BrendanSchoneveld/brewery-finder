@@ -2,17 +2,13 @@ import React, { Component } from "react";
 import Form from "../../sharedComponents/__elements/Form/Form";
 import Table from "../../sharedComponents/__elements/Table/Table";
 
-import fetchData from "../../services/fetchData";
-
 import _ from "lodash";
 
 class HomeView extends Component {
   state = {
     userInput: "",
     didUserSearch: false,
-    breweries: [],
-    destinations: [],
-    searchResults: []
+    breweries: []
   };
 
   formProps = {
@@ -95,69 +91,57 @@ class HomeView extends Component {
   };
 
   getDestinations = () => {
-    const { breweries } = this.state,
-      destinationInfo = [];
+    const { breweries } = this.state;
+    let destinations = [];
 
     if (breweries.length) {
-      breweries.map(brewery => {
+      breweries.map((brewery, index) => {
         const { address, city, name } = brewery;
-        destinationInfo.push([address, city, name, "|"].join());
+        console.log({ address, city, name });
+        destinations.push({ address, city, name });
       });
     }
-
-    this.setState(
-      {
-        destinations: [...destinationInfo]
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    return destinations;
   };
 
   search = _.debounce(searchQuery => {
-    const { destinations } = this.state,
-      fetchParams = {
-        endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
-        format: `json`,
-        units: `metric`,
-        origins: `${searchQuery}+ON`,
-        destinations: `${destinations}`,
-        mode: `car`,
-        language: `nl-NL`,
-        API_KEY: `AIzaSyDt8TIB9kS6PblFh0CCR3epTkOF6OryOlY`,
-        stateDescription: "searchResults",
-        component: this
-      };
+    const { userInput } = this.state;
+    const fetchParams = {
+      endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
+      format: `json`,
+      origins: `${userInput}`,
+      destinations: this.getDestinations(),
+      URL: `https://api.spotify.com/v1/search?q=${searchQuery}&type=track`,
+      stateDescription: "searchResults",
+      component: this
+    };
 
-    fetchData(fetchParams);
+    console.log(fetchParams);
+
+    //fetchData(fetchParams);
   }, 1000);
 
   handleChange = e => {
-    const { userInput } = this.state,
-      target = e.target,
-      value = target.type === "checkbox" ? target.checked : target.value,
-      name = target.name;
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
 
-    this.setState(
-      {
-        [name]: value
-      },
-      () => {
-        this.search(userInput);
-      }
-    );
+    this.setState({
+      [name]: value
+    });
   };
 
   componentDidMount() {
-    let breweryData = require("../../data/brouwerijen.json");
+    const { userInput } = this.state,
+      breweryData = require("../../data/brouwerijen.json");
 
     this.setState(
       {
-        breweries: [...breweryData.breweries]
+        breweries: { ...breweryData.breweries }
       },
       () => {
-        this.getDestinations();
+        console.log("changed");
+        this.search(userInput);
       }
     );
 

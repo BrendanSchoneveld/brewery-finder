@@ -11,7 +11,7 @@ class HomeView extends Component {
     userInput: "",
     didUserSearch: false,
     breweries: [],
-    destinations: [],
+    destinations: ["Overtocht 43,Bodegraven,Brouwerij de Molen"],
     searchResults: []
   };
 
@@ -101,7 +101,7 @@ class HomeView extends Component {
     if (breweries.length) {
       breweries.map(brewery => {
         const { address, city, name } = brewery;
-        destinationInfo.push([address, city, name, "|"].join());
+        destinationInfo.push([address, city, name].join());
       });
     }
 
@@ -118,10 +118,10 @@ class HomeView extends Component {
   search = _.debounce(searchQuery => {
     const { destinations } = this.state,
       fetchParams = {
-        endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
+        endpoint: `http://maps.googleapis.com/maps/api/distancematrix/`,
         format: `json`,
         units: `metric`,
-        origins: `${searchQuery}+ON`,
+        origins: `${searchQuery}`,
         destinations: `${destinations}`,
         mode: `car`,
         language: `nl-NL`,
@@ -157,7 +157,8 @@ class HomeView extends Component {
         breweries: [...breweryData.breweries]
       },
       () => {
-        this.getDestinations();
+        console.log(this.state);
+        //this.getDestinations();
       }
     );
 
