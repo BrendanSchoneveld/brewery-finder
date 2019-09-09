@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Form from "../../sharedComponents/__elements/Form/Form";
 import Table from "../../sharedComponents/__elements/Table/Table";
 import fetchData from "../../services/fetchData";
+import compareDistances from "../../services/compareDistances";
 
 import _ from "lodash";
 
