@@ -20,11 +20,8 @@ export default async function fetchData({
   try {
     let response = await axios.get(URL, {
       headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3001",
-        "Access-Control-Allow-Headers":
-          "origin, content-type, accept, authorization",
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD"
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
       }
     });
     let { data } = response;
