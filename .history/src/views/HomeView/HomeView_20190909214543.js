@@ -57,7 +57,6 @@ class HomeView extends Component {
   search = _.debounce(searchQuery => {
     const { destinations } = this.state,
       fetchParams = {
-        //endpoint: `https://maps.googleapis.com/maps/api/distancematrix/`,
         endpoint: `/maps-api/maps/api/distancematrix/`,
         format: `json`,
         units: `metric`,
