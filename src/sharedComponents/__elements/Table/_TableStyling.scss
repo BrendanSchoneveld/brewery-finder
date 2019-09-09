@@ -1,0 +1,18 @@
+.thead-dark {
+  background: #2b6cb0;
+
+  * {
+    color: white;
+  }
+}
+
+.table {
+  * {
+    text-align: left;
+  }
+
+  td,
+  th {
+    vertical-align: center;
+  }
+}

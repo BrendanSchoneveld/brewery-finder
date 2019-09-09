@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "brewery-localize-1557746735264"
+    "default": "brewery-localize-1557746735264",
+    "staging": "nearest-brewery"
   }
 }
