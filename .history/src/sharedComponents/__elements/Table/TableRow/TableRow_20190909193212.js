@@ -19,9 +19,9 @@ const TableRow = ({
       <td>{displayCity || city}</td>
       <td>{displayDuration || duration}</td>
       <td>{displayDistance || distance}</td>
-      {/* <td>
+      <td>
         <i className="fas fa-map-marked-alt text-4xl"></i>
-      </td> */}
+      </td>
     </tr>
   );
 };
