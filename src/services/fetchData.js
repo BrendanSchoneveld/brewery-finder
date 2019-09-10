@@ -20,7 +20,8 @@ export default async function fetchData({
   try {
     let response = await axios.get(URL, {
       headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3001",
+        "Access-Control-Allow-Origin":
+          "http://localhost:3001, https://nearest-brewery.firebaseapp.com/",
         "Access-Control-Allow-Headers":
           "origin, content-type, accept, authorization",
         "Access-Control-Allow-Credentials": "true",
@@ -29,14 +30,9 @@ export default async function fetchData({
     });
     let { data } = response;
 
-    component.setState(
-      {
-        [setStateOf]: data
-      },
-      () => {
-        console.log(data);
-      }
-    );
+    component.setState({
+      [setStateOf]: data
+    });
   } catch (error) {
     console.error(error);
   }
