@@ -1,12 +1,12 @@
 export default function compareDistances(a, b) {
-  const distanceA = a.distance.value;
-  const distanceZ = b.distance.value;
+  const compareValueA = a.duration.value;
+  const compareValueB = b.duration.value;
 
   let comparison = 0;
 
-  if (distanceA > distanceZ) {
+  if (compareValueA > compareValueB) {
     comparison = 1;
-  } else if (distanceA < distanceZ) {
+  } else if (compareValueA < compareValueB) {
     comparison = -1;
   }
   return comparison;

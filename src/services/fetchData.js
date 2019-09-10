@@ -9,7 +9,7 @@ export default async function fetchData({
   mode,
   language,
   API_KEY,
-  stateDescription,
+  setStateOf,
   component
 }) {
   let displayFormat = format ? format : null,
@@ -31,7 +31,7 @@ export default async function fetchData({
     let { data } = response;
 
     component.setState({
-      [stateDescription]: [...data]
+      [setStateOf]: data
     });
   } catch (error) {
     console.error(error);
