@@ -8,10 +8,10 @@ import _ from "lodash";
 class HomeView extends Component {
   state = {
     userInput: "",
+    searchOrigin: "",
     breweries: [],
     destinations: [],
     searchResults: {},
-    searchOrigin: "",
     distanceRowsToDisplay: []
   };
 
@@ -25,19 +25,17 @@ class HomeView extends Component {
       },
       () => {
         if (breweries.length) {
-          this.createDestinationsData(breweries);
+          this.createDestinationsData();
         }
       }
     );
   };
 
-  createDestinationsData = breweries => {
-    const destinationsData = [];
+  createDestinationsData = () => {
+    const { breweries } = this.state;
 
-    breweries.map(brewery => {
-      const { address, city, zipcode } = brewery;
-      destinationsData.push([address, city, zipcode, "|"].join());
-      return null;
+    const destinationsData = breweries.map(({ address, city, zipcode }) => {
+      return [address, city, zipcode, "|"].join();
     });
 
     this.setState({
@@ -46,7 +44,8 @@ class HomeView extends Component {
   };
 
   handleChange = e => {
-    const target = e.target,
+    const { userInput } = this.state,
+      target = e.target,
       value = target.type === "checkbox" ? target.checked : target.value,
       name = target.name;
 
@@ -55,13 +54,15 @@ class HomeView extends Component {
         [name]: value
       },
       () => {
-        this.search();
+        if (userInput.length !== 0) {
+          this.search();
+        }
       }
     );
   };
 
   search = _.debounce(() => {
-    const { destinations, userInput } = this.state,
+    const { destinations, userInput, searchResults } = this.state,
       fetchParams = {
         endpoint: `/maps-api/maps/api/distancematrix/`,
         format: `json`,
@@ -78,11 +79,27 @@ class HomeView extends Component {
     fetchData(fetchParams);
   }, 1000);
 
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps, prevState) => {
     const { searchResults } = this.state;
+    const distanceRowArray = [];
 
-    if (!_.isEmpty(searchResults)) {
-      this.displayResults(searchResults.rows[0].elements);
+    if (
+      this.state.searchResults !== prevState.searchResults &&
+      this.state.searchResults.status === "OK"
+    ) {
+      /*
+       * Fill distanceRowArray with
+       */
+      searchResults.rows.map(subarray => {
+        for (let row of subarray.elements) {
+          if (row.status === "OK") {
+            distanceRowArray.push(row);
+          }
+        }
+        return null;
+      });
+
+      this.displayResults(distanceRowArray);
     }
   };
 
@@ -109,7 +126,10 @@ class HomeView extends Component {
       <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
         <Form handleChange={this.handleChange} userInput={userInput} />
 
-        <Table destinationsDistances={distanceRowsToDisplay} />
+        <Table
+          destinationsDistances={distanceRowsToDisplay}
+          userInput={userInput}
+        />
       </div>
     );
   }

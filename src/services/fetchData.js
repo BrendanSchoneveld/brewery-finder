@@ -29,9 +29,14 @@ export default async function fetchData({
     });
     let { data } = response;
 
-    component.setState({
-      [setStateOf]: data
-    });
+    component.setState(
+      {
+        [setStateOf]: data
+      },
+      () => {
+        console.log(data);
+      }
+    );
   } catch (error) {
     console.error(error);
   }

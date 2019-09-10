@@ -2,7 +2,7 @@ import React from "react";
 import TableHead from "./TableHead/TableHead";
 import TableBody from "./TableBody/TableBody";
 
-const Table = ({ destinationsDistances }) => {
+const Table = ({ destinationsDistances, userInput }) => {
   const tableProps = {
     tableClasses: "table mt-5",
     tableHead: {
@@ -24,7 +24,10 @@ const Table = ({ destinationsDistances }) => {
     <table className={tableClasses ? tableClasses : ""}>
       <TableHead {...tableHead} />
 
-      <TableBody destinationsDistances={destinationsDistances} />
+      <TableBody
+        destinationsDistances={destinationsDistances}
+        userInput={userInput}
+      />
     </table>
   );
 };
