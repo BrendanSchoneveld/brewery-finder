@@ -1,0 +1,144 @@
+{
+  "destination_addresses": [
+    "Overtocht 43, 2411 BT Bodegraven, Nederland",
+    "Amsterdamseweg 22, 1182 HD Amstelveen, Nederland",
+    "Gedempte Voldersgracht 2, 2011 WD Haarlem, Nederland",
+    "Pratumplaats 2A, 3454 NA Utrecht, Nederland",
+    "Aelbrechtskolk 12, 3024 RE Rotterdam, Nederland",
+    "Guido Gezellelaan 49, 2800 Mechelen, België",
+    "Achterweg 22, 1906 AG Limmen, Nederland",
+    "Funenkade 7, 1018 AL Amsterdam, Nederland",
+    "Flevoweg 6 B, 2318 BZ Leiden, Nederland",
+    "214 b, Schilderweg, 1792 CK Oudeschild, Nederland",
+    "Schoolstraat 77, 3451 AC Utrecht, Nederland"
+  ],
+  "origin_addresses": ["Katwijk, Nederland"],
+  "rows": [
+    {
+      "elements": [
+        {
+          "distance": {
+            "text": "31,8 km",
+            "value": 31832
+          },
+          "duration": {
+            "text": "35 min.",
+            "value": 2104
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "41,7 km",
+            "value": 41693
+          },
+          "duration": {
+            "text": "31 min.",
+            "value": 1849
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "26,4 km",
+            "value": 26397
+          },
+          "duration": {
+            "text": "33 min.",
+            "value": 1963
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "55,7 km",
+            "value": 55674
+          },
+          "duration": {
+            "text": "49 min.",
+            "value": 2910
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "43,5 km",
+            "value": 43502
+          },
+          "duration": {
+            "text": "43 min.",
+            "value": 2602
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "166 km",
+            "value": 166250
+          },
+          "duration": {
+            "text": "1 uur 50 min.",
+            "value": 6611
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "64,4 km",
+            "value": 64406
+          },
+          "duration": {
+            "text": "46 min.",
+            "value": 2733
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "51,0 km",
+            "value": 51023
+          },
+          "duration": {
+            "text": "42 min.",
+            "value": 2547
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "8,9 km",
+            "value": 8887
+          },
+          "duration": {
+            "text": "14 min.",
+            "value": 828
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "126 km",
+            "value": 125985
+          },
+          "duration": {
+            "text": "2 uur 11 min.",
+            "value": 7869
+          },
+          "status": "OK"
+        },
+        {
+          "distance": {
+            "text": "69,7 km",
+            "value": 69739
+          },
+          "duration": {
+            "text": "47 min.",
+            "value": 2847
+          },
+          "status": "OK"
+        }
+      ]
+    }
+  ],
+  "status": "OK"
+}

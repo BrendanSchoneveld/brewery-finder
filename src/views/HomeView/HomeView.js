@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Form from "../../sharedComponents/__elements/Form/Form";
 import Table from "../../sharedComponents/__elements/Table/Table";
-
 import fetchData from "../../services/fetchData";
 
 import _ from "lodash";
@@ -9,133 +8,45 @@ import _ from "lodash";
 class HomeView extends Component {
   state = {
     userInput: "",
-    didUserSearch: false,
     breweries: [],
     destinations: [],
-    searchResults: []
+    searchResults: {},
+    searchOrigin: "",
+    distanceRowsToDisplay: []
   };
 
-  formProps = {
-    formClasses: "form bg-blue-700 mt-5 px-5 py-5 rounded-full",
-    formGroups: [
-      {
-        formGroupProps: {
-          customClasses: "mb-0"
-        },
-        inputProps: {
-          type: "text",
-          customClasses: "form-control form-control-lg mb-0",
-          id: "1",
-          name: "userInput",
-          placeholder: "Voer een lokatie in"
-        }
-      }
-    ]
-  };
-
-  tableProps = {
-    tableClasses: "table mt-5",
-    tableRows: [
-      {
-        tableHead: true,
-        customClasses: "thead-dark",
-        tableColumns: [
-          { position: "#", scope: "col" },
-          { duration: "Duur", scope: "col" },
-          { distance: "Afstand", scope: "col" },
-          { link: "Link", scope: "col" }
-        ]
-      },
-      {
-        tableHead: false,
-        tableColumns: [
-          { position: 1 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
-      },
-      {
-        tableHead: false,
-        tableColumns: [
-          { position: 2 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
-      },
-      {
-        tableHead: false,
-        tableColumns: [
-          { position: 3 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
-      },
-      {
-        tableHead: false,
-        tableColumns: [
-          { position: 4 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
-      },
-      {
-        tableHead: false,
-        tableColumns: [
-          { position: 5 },
-          { duration: "Duur" },
-          { distance: "Afstand" },
-          { link: "Link" }
-        ]
-      }
-    ]
-  };
-
-  getDestinations = () => {
-    const { breweries } = this.state,
-      destinationInfo = [];
-
-    if (breweries.length) {
-      breweries.map(brewery => {
-        const { address, city, name } = brewery;
-        destinationInfo.push([address, city, name, "|"].join());
-      });
-    }
+  componentDidMount = () => {
+    const breweryData = require("../../data/brouwerijen.json"),
+      { breweries } = breweryData;
 
     this.setState(
       {
-        destinations: [...destinationInfo]
+        breweries: [...breweries]
       },
       () => {
-        console.log(this.state);
+        if (breweries.length) {
+          this.createDestinationsData(breweries);
+        }
       }
     );
   };
 
-  search = _.debounce(searchQuery => {
-    const { destinations } = this.state,
-      fetchParams = {
-        endpoint: `/maps-api/maps/api/distancematrix/`,
-        format: `json`,
-        units: `metric`,
-        origins: `${searchQuery}+ON`,
-        destinations: `${destinations}`,
-        mode: `car`,
-        language: `nl-NL`,
-        API_KEY: `AIzaSyDt8TIB9kS6PblFh0CCR3epTkOF6OryOlY`,
-        stateDescription: "searchResults",
-        component: this
-      };
+  createDestinationsData = breweries => {
+    const destinationsData = [];
 
-    fetchData(fetchParams);
-  }, 1000);
+    breweries.map(brewery => {
+      const { address, city, zipcode } = brewery;
+      destinationsData.push([address, city, zipcode, "|"].join());
+      return null;
+    });
+
+    this.setState({
+      destinations: [...destinationsData]
+    });
+  };
 
   handleChange = e => {
-    const { userInput } = this.state,
-      target = e.target,
+    const target = e.target,
       value = target.type === "checkbox" ? target.checked : target.value,
       name = target.name;
 
@@ -144,43 +55,61 @@ class HomeView extends Component {
         [name]: value
       },
       () => {
-        this.search(userInput);
+        this.search();
       }
     );
   };
 
-  componentDidMount() {
-    let breweryData = require("../../data/brouwerijen.json");
+  search = _.debounce(() => {
+    const { destinations, userInput } = this.state,
+      fetchParams = {
+        endpoint: `/maps-api/maps/api/distancematrix/`,
+        format: `json`,
+        units: `metric`,
+        origins: `${userInput}+ON`,
+        destinations: `${destinations}`,
+        mode: `car`,
+        language: `nl-NL`,
+        API_KEY: `AIzaSyDt8TIB9kS6PblFh0CCR3epTkOF6OryOlY`,
+        setStateOf: "searchResults",
+        component: this
+      };
 
-    this.setState(
-      {
-        breweries: [...breweryData.breweries]
-      },
-      () => {
-        this.getDestinations();
-      }
-    );
+    fetchData(fetchParams);
+  }, 1000);
 
-    /* const fetchParams = {
-      URL: `https://download.oberon.nl/opdracht/brouwerijen.js`,
-      stateDescription: "breweryAdresses",
-      component: this
-    };
+  componentDidUpdate = () => {
+    const { searchResults } = this.state;
 
-    fetchData(fetchParams); */
-  }
+    if (!_.isEmpty(searchResults)) {
+      this.displayResults(searchResults.rows[0].elements);
+    }
+  };
+
+  displayResults = _.debounce(results => {
+    const { breweries } = this.state,
+      destinationRows = results
+        ? results.map((distanceResults, i) => {
+            const mergedObject = {
+              ...breweries[i],
+              ...distanceResults
+            };
+
+            return mergedObject;
+          })
+        : [];
+    this.setState({
+      distanceRowsToDisplay: destinationRows
+    });
+  }, 1000);
 
   render() {
-    const { userInput } = this.state;
+    const { userInput, distanceRowsToDisplay } = this.state;
     return (
       <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-        <Form
-          {...this.formProps}
-          handleChange={this.handleChange}
-          userInput={userInput}
-        />
+        <Form handleChange={this.handleChange} userInput={userInput} />
 
-        <Table {...this.tableProps} />
+        <Table destinationsDistances={distanceRowsToDisplay} />
       </div>
     );
   }
